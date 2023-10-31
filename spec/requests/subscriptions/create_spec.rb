@@ -33,4 +33,40 @@ RSpec.describe "Subscription" do
     expect(json_response[:data][:attributes]).to have_key(:frequency_by_months)
     expect(json_response[:data][:attributes][:frequency_by_months]).to be_a(Integer)
   end
+
+  it "can't create a new subscription without a title, price, or frequency" do
+    subscription_no_title = { price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id }
+    subscription_no_price = { title: "Green Tea", frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id }
+    subscription_no_frequency = { title: "Green Tea", price_dollars: 10, customer_id: @customer.id, tea_id: @tea.id }
+    
+    expect(Subscription.count).to eq(0)
+
+    headers = { "CONTENT_TYPE" => "application/json" }
+    post '/api/v1/subscribe', headers:, params: subscription_no_title.to_json
+    
+    expect(Subscription.count).to eq(0)
+
+    post '/api/v1/subscribe', headers:, params: subscription_no_price.to_json
+
+    expect(Subscription.count).to eq(0)
+
+    post '/api/v1/subscribe', headers:, params: subscription_no_frequency.to_json
+
+    expect(Subscription.count).to eq(0)
+  end
+
+  it "can't create a new subscription with duplicate title" do
+    subscription_params = { title: "Green Tea.john_doe", price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id }
+    duplicate_subscription_params = { title: "Green Tea.john_doe", price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id }
+    expect(Subscription.count).to eq(0)
+
+    headers = { "CONTENT_TYPE" => "application/json" }
+    post '/api/v1/subscribe', headers:, params: subscription_params.to_json
+
+    expect(Subscription.count).to eq(1)
+
+    post '/api/v1/subscribe', headers:, params: duplicate_subscription_params.to_json
+
+    expect(Subscription.count).to eq(1)
+  end
 end
