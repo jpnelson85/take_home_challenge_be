@@ -12,7 +12,7 @@ RSpec.describe "Subscription" do
     expect(Subscription.count).to eq(0)
 
     headers = { "CONTENT_TYPE" => "application/json" }
-    post '/api/v1//subscribe', headers:, params: subscription_params.to_json
+    post '/api/v1/subscribe', headers:, params: subscription_params.to_json
 
     expect(Subscription.count).to eq(1)
 
