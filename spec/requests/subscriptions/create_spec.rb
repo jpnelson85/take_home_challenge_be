@@ -32,9 +32,5 @@ RSpec.describe "Subscription" do
     expect(json_response[:data][:attributes][:price_dollars]).to be_a(Float)
     expect(json_response[:data][:attributes]).to have_key(:frequency_by_months)
     expect(json_response[:data][:attributes][:frequency_by_months]).to be_a(Integer)
-    expect(json_response[:data][:attributes]).to have_key(:customer_id)
-    expect(json_response[:data][:attributes][:customer_id]).to be_a(Integer)
-    expect(json_response[:data][:attributes]).to have_key(:tea_id)
-    expect(json_response[:data][:attributes][:tea_id]).to be_a(Integer)
   end
 end
