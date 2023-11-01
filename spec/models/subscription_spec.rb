@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Subscription, type: :model do
   before(:each) do
     @customer = Customer.create!(first_name: "John", last_name: "Doe", email: "j@gmail.com", address: "123 Main St")
-    @tea = Tea.create!(title: "Green Tea", description: "Green", temperature_f: 200, brew_time_min: 5)
+    @tea = Tea.create!(title: "Purple Tea", description: "Purple", temperature_f: 200, brew_time_min: 5)
     @subscription = Subscription.create!(title: "Green Tea", price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id)
   end
   it { should belong_to(:customer) }
