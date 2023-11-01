@@ -171,8 +171,54 @@ GET Request {email: String}
     ]
 }
 ```
+## Schema
+```
+create_table "customers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "title"
+    t.float "price_dollars"
+    t.integer "frequency_by_months"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "customer_id", null: false
+    t.bigint "tea_id", null: false
+    t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
+    t.index ["tea_id"], name: "index_subscriptions_on_tea_id"
+  end
 
+  create_table "teas", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "temperature_f"
+    t.integer "brew_time_min"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "subscriptions", "customers"
+  add_foreign_key "subscriptions", "teas"
+```
+
+## Routes
+
+```
+namespace :api do
+  namespace :v1 do
+    post '/subscribe', to: 'subscription#new'
+    patch '/subscribe', to: 'subscription#update'
+    get '/subscribe', to: 'subscription#index'
+  end
+end
+```
 ## Contributing
 ```
 git@github.com:jpnelson85/take_home_challenge_be.git
