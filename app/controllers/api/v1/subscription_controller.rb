@@ -17,7 +17,9 @@ class Api::V1::SubscriptionController < ApplicationController
 
   def update
     begin
-      subscription = Subscription.find_by(id: params[:id])
+      tea = Tea.find_by(title: params[:title])
+      customer = Customer.find_by(email: params[:email])
+      subscription = Subscription.find_by(customer_id: customer.id, tea_id: tea.id)
       subscription.update!(status: params[:status])
       render json: SubscriptionSerializer.new(subscription), status: 200
     rescue StandardError => e
@@ -26,7 +28,13 @@ class Api::V1::SubscriptionController < ApplicationController
 
   end
 
-  def show
-
+  def index
+    begin
+      customer = Customer.find_by(email: params[:email])
+      subscriptions = Subscription.where(customer_id: customer.id)
+      render json: SubscriptionSerializer.new(subscriptions), status: 200
+    rescue StandardError => e
+      render json: { error: e.message }, status: 400
+    end
   end
 end
