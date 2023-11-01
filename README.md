@@ -70,7 +70,7 @@ git push origin feature/AmazingFeature
 8. Open a Pull Request
 
 ## Endpoints Used
-'''
+```
 POST Request {title: String, price_dollars: Float, frequency_by_months: Integer, customer_id: Integer, tea_id Integer, status: String}
 Response {
     "data": {
@@ -86,8 +86,8 @@ Response {
         }
     }
 }
-'''
-'''
+```
+```
 PATCH Request {email: String, title: String, status: String}
 Response {
     "data": {
@@ -103,8 +103,8 @@ Response {
         }
     }
 }
-'''
-'''
+```
+```
 GET Request {email: String}
 {
     "data": [
@@ -170,7 +170,7 @@ GET Request {email: String}
         }
     ]
 }
-'''
+```
 
 
 ## Contributing
