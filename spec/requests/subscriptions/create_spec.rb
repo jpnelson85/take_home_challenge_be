@@ -7,7 +7,7 @@ RSpec.describe "Subscription" do
   end
 
   it "creates a new subscription" do
-    subscription_params = { title: "Green Tea", price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id }
+    subscription_params = { title: "Green Tea", price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id, status: "active" }
 
     expect(Subscription.count).to eq(0)
 
@@ -32,6 +32,8 @@ RSpec.describe "Subscription" do
     expect(json_response[:data][:attributes][:price_dollars]).to be_a(Float)
     expect(json_response[:data][:attributes]).to have_key(:frequency_by_months)
     expect(json_response[:data][:attributes][:frequency_by_months]).to be_a(Integer)
+    expect(json_response[:data][:attributes]).to have_key(:status)
+    expect(json_response[:data][:attributes][:status]).to be_a(String)
   end
 
   it "can't create a new subscription without a title, price, or frequency" do
