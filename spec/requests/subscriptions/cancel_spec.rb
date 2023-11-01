@@ -8,13 +8,23 @@ RSpec.describe "Subscription Cancel" do
   end
 
   it "can cancel a subscription" do
-    @update_params = { status: "cancelled" }
+    @update_params = { email: @customer.email, title: @tea.title, status: "cancelled" }
     expect(@subscription.status).to eq("active")
 
     headers = { "CONTENT_TYPE" => "application/json" }
     patch '/api/v1/subscribe', headers: headers, params: @update_params.to_json
-require 'pry'; binding.pry
+
+    expect(response).to be_successful
     @subscription.reload
     expect(@subscription.status).to eq("cancelled")
+  end
+
+  it "errors if subscription is not found" do
+    @update_params = { email: "test email", title: "Black Tea", status: "cancelled" }
+    
+    headers = { "CONTENT_TYPE" => "application/json" }
+    patch '/api/v1/subscribe', headers: headers, params: @update_params.to_json
+
+    expect(response.status).to eq(400)
   end
 end
