@@ -5,6 +5,7 @@ RSpec.describe "Subscription Cancel" do
     @customer = Customer.create!(first_name: "John", last_name: "Doe", email: "jandoe@gmail.com", address: "123 Main St")
     @tea = Tea.create!(title: "Purple Tea", description: "Green", temperature_f: 200, brew_time_min: 5)
     @subscription = Subscription.create!(title: "Green Tea", price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id, status: "active")
+    @subscription2 = Subscription.create!(title: "Blue Tea", price_dollars: 10, frequency_by_months: 1, customer_id: @customer.id, tea_id: @tea.id, status: "cancelled")
   end
 
   it "can cancel a subscription" do
@@ -17,6 +18,17 @@ RSpec.describe "Subscription Cancel" do
     expect(response).to be_successful
     @subscription.reload
     expect(@subscription.status).to eq("cancelled")
+  end
+
+  it "can reactivate a subscription" do
+    @update_params = { email: @customer.email, title: @tea.title, status: "active" }
+    expect(@subscription2.status).to eq("cancelled")
+
+    headers = { "CONTENT_TYPE" => "application/json" }
+    patch '/api/v1/subscribe', headers: headers, params: @update_params.to_json
+
+    expect(response).to be_successful
+    expect(@subscription.status).to eq("active")
   end
 
   it "errors if subscription is not found" do
