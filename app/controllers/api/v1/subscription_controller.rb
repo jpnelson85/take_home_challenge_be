@@ -20,7 +20,15 @@ class Api::V1::SubscriptionController < ApplicationController
       tea = Tea.find_by(title: params[:title])
       customer = Customer.find_by(email: params[:email])
       subscription = Subscription.find_by(customer_id: customer.id, tea_id: tea.id)
-      subscription.update!(status: params[:status])
+      if subscription[:status] == "cancelled"
+        new_status = "active"
+      elsif subscription[:status] == "active"
+        new_status = "cancelled"
+      else 
+        render json: { error: "Invalid status" }, status: 400
+        return
+      end
+      subscription.update!(status: new_status)
       render json: SubscriptionSerializer.new(subscription), status: 200
     rescue StandardError => e
       render json: { error: e.message }, status: 400
