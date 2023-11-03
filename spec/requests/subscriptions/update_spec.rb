@@ -13,7 +13,7 @@ RSpec.describe "Subscription Cancel" do
     expect(@subscription.status).to eq("active")
 
     headers = { "CONTENT_TYPE" => "application/json" }
-    patch '/api/v1/subscribe', headers: headers, params: @update_params.to_json
+    patch '/api/v1/subscribtion', headers: headers, params: @update_params.to_json
 
     expect(response).to be_successful
     @subscription.reload
@@ -25,7 +25,7 @@ RSpec.describe "Subscription Cancel" do
     expect(@subscription2.status).to eq("cancelled")
 
     headers = { "CONTENT_TYPE" => "application/json" }
-    patch '/api/v1/subscribe', headers: headers, params: @update_params.to_json
+    patch '/api/v1/subscribtion', headers: headers, params: @update_params.to_json
 
     expect(response).to be_successful
     expect(@subscription.status).to eq("active")
@@ -35,7 +35,7 @@ RSpec.describe "Subscription Cancel" do
     @update_params = { email: "test email", title: @tea.title, status: "active" }
     
     headers = { "CONTENT_TYPE" => "application/json" }
-    patch '/api/v1/subscribe', headers: headers, params: @update_params.to_json
+    patch '/api/v1/subscribtion', headers: headers, params: @update_params.to_json
 
     expect(response.status).to eq(400)
   end

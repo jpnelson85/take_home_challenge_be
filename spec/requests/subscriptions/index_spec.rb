@@ -12,7 +12,7 @@ RSpec.describe "Subscription index Page" do
   it "can show all of customer's subscriptions " do
     expect(@customer.subscriptions.count).to eq(2)
 
-    get "/api/v1/subscribe", params: { email: @customer.email }
+    get "/api/v1/subscribtion", params: { email: @customer.email }
 
     expect(response).to be_successful
     expect(response.status).to eq(200)
@@ -20,7 +20,7 @@ RSpec.describe "Subscription index Page" do
 
   it "errors if customer is not found" do
 
-    get "/api/v1/subscribe", params: { email: "test email" }
+    get "/api/v1/subscribtion", params: { email: "test email" }
 
     expect(response.status).to eq(400)
   end

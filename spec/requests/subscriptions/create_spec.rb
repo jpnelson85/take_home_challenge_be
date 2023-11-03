@@ -12,7 +12,7 @@ RSpec.describe "Subscription" do
     expect(Subscription.count).to eq(5)
 
     headers = { "CONTENT_TYPE" => "application/json" }
-    post '/api/v1/subscribe', headers:, params: subscription_params.to_json
+    post '/api/v1/subscribtion', headers:, params: subscription_params.to_json
 
     expect(Subscription.count).to eq(6)
 
@@ -44,15 +44,15 @@ RSpec.describe "Subscription" do
     expect(Subscription.count).to eq(5)
 
     headers = { "CONTENT_TYPE" => "application/json" }
-    post '/api/v1/subscribe', headers:, params: subscription_no_title.to_json
+    post '/api/v1/subscribtion', headers:, params: subscription_no_title.to_json
     
     expect(Subscription.count).to eq(5)
 
-    post '/api/v1/subscribe', headers:, params: subscription_no_price.to_json
+    post '/api/v1/subscribtion', headers:, params: subscription_no_price.to_json
 
     expect(Subscription.count).to eq(5)
 
-    post '/api/v1/subscribe', headers:, params: subscription_no_frequency.to_json
+    post '/api/v1/subscribtion', headers:, params: subscription_no_frequency.to_json
 
     expect(Subscription.count).to eq(5)
   end
@@ -63,11 +63,11 @@ RSpec.describe "Subscription" do
     expect(Subscription.count).to eq(5)
 
     headers = { "CONTENT_TYPE" => "application/json" }
-    post '/api/v1/subscribe', headers:, params: subscription_params.to_json
+    post '/api/v1/subscribtion', headers:, params: subscription_params.to_json
 
     expect(Subscription.count).to eq(6)
 
-    post '/api/v1/subscribe', headers:, params: duplicate_subscription_params.to_json
+    post '/api/v1/subscribtion', headers:, params: duplicate_subscription_params.to_json
 
     expect(Subscription.count).to eq(6)
   end
